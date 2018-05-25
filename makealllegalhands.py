@@ -18,7 +18,7 @@ all_legalhands[key][7] = PPj(puted Place j) = 置いた場所のj座標
 となるように作成
 '''
 
-def getAllLegalhands(field,player,pieces,count):
+def getAllLegalhands(field,player,pieces):
     all_legalhands = {}
 
     exist_hands = getExistHands(pieces)

@@ -35,7 +35,7 @@ def decideTheBestHand(number,field,player1,pieces,count,board) :
 
     the_best_hand = ''    #選ばれたピースを格納する変数の初期化
 
-    all_legalhands = getAllLegalhands(field,player1,pieces,count) #ここに時間がめっちゃかかってる(max1.2秒ぐらいに短縮)
+    all_legalhands = getAllLegalhands(field,player1,pieces) 
 
     if all_legalhands == {} :
         print(pieces)
@@ -65,7 +65,7 @@ def decideTheBestHand(number,field,player1,pieces,count,board) :
             if len(survived__legalhands) != 1:
                 phase4 = selectByPutedPlace(survived__legalhands,field)
                 survived__legalhands = phase4
-            
+        
         elif count > 15 :
             phase0 = all_legalhands
             survived__legalhands = phase0 #実行する条件を選ぶ
@@ -74,30 +74,13 @@ def decideTheBestHand(number,field,player1,pieces,count,board) :
                 survived__legalhands  = phase0_1
 
             if len(survived__legalhands) != 1:
-                phase1 = selectBySizeOfPiece(survived__legalhands)
+                phase1 = selectSmartly2(survived__legalhands,player1,pieces)
                 survived__legalhands = phase1
 
             if len(survived__legalhands) != 1:
-                phase2 = selectSmartlybf(survived__legalhands,field,player1)
+                phase2 = selectBySizeOfPiece(survived__legalhands)
                 survived__legalhands = phase2
-            
-            if len(survived__legalhands) != 1:
-                phase3 = selectSmartly(survived__legalhands,player1)
-                survived__legalhands = phase3
-            
-            if len(survived__legalhands) != 1:
-                phase4 = selectByPutPlace(survived__legalhands)
-                survived__legalhands = phase4
 
-            if len(survived__legalhands) != 1:
-                phase5 = selectByNumberOfExcess(survived__legalhands)
-                survived__legalhands = phase5
-
-            if len(survived__legalhands) != 1:
-                phase6 = selectByPutedPlace(survived__legalhands,field)
-                survived__legalhands = phase6
-            
-            #print("count : {0}".format(count))
         else :
             phase0 = all_legalhands
             survived__legalhands = phase0
@@ -140,4 +123,38 @@ def decideTheBestHand(number,field,player1,pieces,count,board) :
                               survived__legalhands[the_best_hand][0],\
                               survived__legalhands[the_best_hand][1])
 
-    
+    '''
+        elif count > 15 :
+            phase0 = all_legalhands
+            survived__legalhands = phase0 #実行する条件を選ぶ
+            if len(survived__legalhands) != 1:
+                phase0_1 = filter(phase0,player1)
+                survived__legalhands  = phase0_1
+
+            if len(survived__legalhands) != 1:
+                phase1 = selectBySizeOfPiece(survived__legalhands)
+                survived__legalhands = phase1
+
+            if len(survived__legalhands) != 1:
+                phase2 = selectSmartlybf(survived__legalhands,field,player1)
+                survived__legalhands = phase2
+            
+            if len(survived__legalhands) != 1:
+                phase3 = selectSmartly(survived__legalhands,player1)
+                survived__legalhands = phase3
+            
+            if len(survived__legalhands) != 1:
+                phase4 = selectByPutPlace(survived__legalhands)
+                survived__legalhands = phase4
+
+            if len(survived__legalhands) != 1:
+                phase5 = selectByNumberOfExcess(survived__legalhands)
+                survived__legalhands = phase5
+
+            if len(survived__legalhands) != 1:
+                phase6 = selectByPutedPlace(survived__legalhands,field)
+                survived__legalhands = phase6
+            
+            #print("count : {0}".format(count))
+        '''
+        

@@ -60,3 +60,4 @@ class CPlayer(Player):
 			hand = decideTheBestHand(self.number,field,player1,pieces,self.count,board)
 			
 		return hand
+		

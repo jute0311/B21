@@ -1,5 +1,6 @@
 from players.B21.makefield import *
 from players.B21.piecesinfo import getPiecesSize
+from players.B21.makealllegalhands import *
 
 '''
 current_legalhands[key][0] = name               = ピースの名前
@@ -258,10 +259,11 @@ def selectSmartly(current_legalhands,old_player1):
     else :
         return current_legalhands
 
-def selectSmartly2(current_legalhands,old_player1):
+def selectSmartly2(current_legalhands,old_player1,pieces):
     '''
     相手の角のところに置くように作っていく
     新しくできた11の領域があいてのスペースの隙間に入っているか確かめる
+    さらにそのスペースにおけるピースを確認する
     '''
 
     selected_legalhands = {}
@@ -279,7 +281,7 @@ def selectSmartly2(current_legalhands,old_player1):
         final_judge = 0
         for place in player1: #おける場所
             if place not in old_player1: #置けた場所
-                i = place[0]
+                i = place[0] #新しくおける場所
                 j = place[1]
                 if 0 < i < 19 and 0 < j < 19 :
                     if after_field[i-1][j] != 0 and after_field[i-1][j] != 10 and after_field[i-1][j] != 11 \
@@ -299,26 +301,29 @@ def selectSmartly2(current_legalhands,old_player1):
                         and after_field[i-1][j+1] == 1:
                         judge += 1
                     
-                    if judge != 0:
-                        for piece in pieces:
-                            if piece != value[0]:
-                                current_pieces.append(piece)
+                if judge != 0:
+                    for piece in pieces:
+                        if piece != value[0]:
+                            current_pieces.append(piece)
 
-                    for piece in current_pieces:
-                        for key,value in current_legalhands.items():
-                            if(piece == value[0]):
-                                new = {key:value}
-                                now_legalhands.update(new)
-
-        if judge != 0:
+                now_legalhands = getAllLegalhands(after_field,[[i, j]], current_pieces)
+                if now_legalhands != {}:
+                    final_judge += 1
+                    
+        if final_judge != 0:
             new = {key:value}
             selected_legalhands.update(new)
+
     if selected_legalhands != {} :
         return selected_legalhands
     else :
         return current_legalhands
 
 def filter(current_legalhands,old_player1):
+    '''
+    置いた後における場所が増えない手を削除
+    '''
+
 
     selected_legalhands = {}
 

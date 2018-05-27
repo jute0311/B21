@@ -351,32 +351,30 @@ def filter(current_legalhands,old_player1):
         return current_legalhands
 
 #相手のブロックの邪魔をする
-def interference(field):
-    p1 = [1,0]
+def interference(current_legalhands,field):
+    p1 = [0,0]
     p2 = [1,0]
     p3 = [1,0]
     p4 = [1,0]
 
     selected_legalhands = {}
-    (inter_field,player1,player2,player3,player4) = getField(board,p1,p2,p3,p4)
+    (inter_field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4)
     for key,value in current_legalhands.items():
         current_pieces = [] #次に置くpieceを格納
         now_legalhands = {}
-        field = value[5].copy()
-        p1 = [1,0]
-        p2 = [0,0]
-        p3 = [0,0]
-        p4 = [0,0]
-        field = value[5].copy()
-        (after_field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4) #new field作成
-        judge = 0
-        final_judge = 0
-        if judge != 0:
-            for piece in pieces:
-                if piece != value[0]:
-                    current_pieces.append(piece)
+        nowfield = value[5].copy()
 
-        now_legalhands = getAllLegalhands(after_field,[[i, j]], current_pieces)
-        if now_legalhands != {}:
-            final_judge += 1
+        judge = 0
+
+        for i in range(20):
+            for j in range(20):
+                if nowfield[i][j] == 1 and field[i][j] != 1 and inter_field[i][j] % 10 == 1:
+                    judge += 1
+        if judge >= 2 :
+            new = {key:value}
+            selected_legalhands.update(new)
     
+    if selected_legalhands != {} :
+        return selected_legalhands
+    else :
+        return current_legalhands

@@ -75,6 +75,10 @@ def decideTheBestHand(number,field,player1,pieces,count,board) :
                 print("1 : {0}".format(len(survived__legalhands)))
 
             if len(survived__legalhands) != 1:
+                survived__legalhands = interference(survived__legalhands,field)
+                print("4 : {0}".format(len(survived__legalhands)))
+
+            if len(survived__legalhands) != 1:
                 survived__legalhands = filter(survived__legalhands,player1)
                 print("2 : {0}".format(len(survived__legalhands))) #重い
             

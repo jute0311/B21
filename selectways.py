@@ -13,16 +13,11 @@ current_legalhands[key][6] = PPi(Puted Place i) = 置いた場所のi座標
 current_legalhands[key][7] = PPj(puted Place j) = 置いた場所のj座標
 '''
 
-def selectByCorner(current_legalhands):
-    selected_legalhands = {}
-    for key,value in exist_all_pieces.items():
-        for i in range(2,18):
-            for j in range(2,18) :
-                check_field = value[5].copy()
-
-    return selected_legalhands
-
+#角の数でフィルターをかける
 def selectByNumberOfExcess(current_legalhands):
+    '''
+    角の数でフィルターをかける
+    '''
     selected_legalhands = {}
     pieces_size = getPiecesSize()
     max_excess = 0
@@ -39,6 +34,7 @@ def selectByNumberOfExcess(current_legalhands):
 
     return selected_legalhands
 
+#置いた後の場所が一番対角線上で遠くなるようにする
 def selectByPutedPlace(current_legalhands,field):
 
     '''
@@ -70,6 +66,7 @@ def selectByPutedPlace(current_legalhands,field):
 
     return selected_legalhands
 
+#置いた後の場所が一番対角線上で遠くなるようにする
 def selectByPutPlace(current_legalhands):
     '''
     ________________________________________________________________________
@@ -99,6 +96,7 @@ def selectByPutPlace(current_legalhands):
             selected_legalhands.update(new)
     return selected_legalhands
 
+#ピースのサイズで識別
 def selectBySizeOfPiece(current_legalhands):
 
     pieces_size = getPiecesSize()
@@ -134,6 +132,7 @@ def selectBySizeOfPiece(current_legalhands):
 
     return selected_legalhands
 
+#広げたスペースのところにおける場所を確保
 def selectPutPlaces(current_places,field):
     '''
     広げたスペースのところに置いていく
@@ -167,6 +166,7 @@ def selectPutPlaces(current_places,field):
     else :
         return current_places
 
+#広げたスペースのところに置いていく
 def selectSmartlybf(current_legalhands,field,current_places):
     '''
     広げたスペースのところに置いていく
@@ -213,6 +213,7 @@ def selectSmartlybf(current_legalhands,field,current_places):
     else :
         return current_legalhands
 
+#相手の角に入り込む
 def selectSmartly(current_legalhands,old_player1):
     '''
     相手の角のところに置くように作っていく
@@ -259,6 +260,7 @@ def selectSmartly(current_legalhands,old_player1):
     else :
         return current_legalhands
 
+#相手の角に入り込み、次のピースがおけるか確認
 def selectSmartly2(current_legalhands,old_player1,pieces):
     '''
     相手の角のところに置くように作っていく
@@ -319,6 +321,7 @@ def selectSmartly2(current_legalhands,old_player1,pieces):
     else :
         return current_legalhands
 
+#置ける場所が増えないやつを削除
 def filter(current_legalhands,old_player1):
     '''
     置いた後における場所が増えない手を削除
@@ -346,4 +349,34 @@ def filter(current_legalhands,old_player1):
         return selected_legalhands
     else :
         return current_legalhands
-        
+
+#相手のブロックの邪魔をする
+def interference(field):
+    p1 = [1,0]
+    p2 = [1,0]
+    p3 = [1,0]
+    p4 = [1,0]
+
+    selected_legalhands = {}
+    (inter_field,player1,player2,player3,player4) = getField(board,p1,p2,p3,p4)
+    for key,value in current_legalhands.items():
+        current_pieces = [] #次に置くpieceを格納
+        now_legalhands = {}
+        field = value[5].copy()
+        p1 = [1,0]
+        p2 = [0,0]
+        p3 = [0,0]
+        p4 = [0,0]
+        field = value[5].copy()
+        (after_field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4) #new field作成
+        judge = 0
+        final_judge = 0
+        if judge != 0:
+            for piece in pieces:
+                if piece != value[0]:
+                    current_pieces.append(piece)
+
+        now_legalhands = getAllLegalhands(after_field,[[i, j]], current_pieces)
+        if now_legalhands != {}:
+            final_judge += 1
+    

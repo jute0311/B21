@@ -51,11 +51,11 @@ class CPlayer(Player):
 		_____________________________________________________________________
 		'''
 		if self.count == 1:
-			hand = encodeFourCode(17, 0, 'o', 0)
+			hand = encodeFourCode(18, 1, 'r', 6)
 		elif self.count == 2:
-			hand = encodeFourCode(15, 2, 'u', 0)
+			hand = encodeFourCode(15, 4, 's', 2)
 		elif self.count == 3:
-			hand = encodeFourCode(13, 4, 't', 1)
+			hand = encodeFourCode(12, 7, 'p', 6)
 		else:
 			hand = decideTheBestHand(self.number,field,player1,pieces,self.count,board)
 			

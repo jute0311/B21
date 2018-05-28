@@ -1,3 +1,5 @@
+import random
+
 from players.B21.makefield import *
 from players.B21.piecesinfo import getPiecesSize
 from players.B21.makealllegalhands import *
@@ -309,8 +311,13 @@ def selectSmartly2(current_legalhands,old_player1,pieces):
                             current_pieces.append(piece)
 
                 now_legalhands = getAllLegalhands(after_field,[[i, j]], current_pieces)
-                if now_legalhands != {}:
-                    final_judge += 1
+                
+                if now_legalhands != {} :
+                    now_selected_legalhands = selectBySizeOfPiece(now_legalhands)
+                    name, val =random.choice(list(now_selected_legalhands.items()))
+                    pieces_size = getPiecesSize()
+                    if pieces_size[val[0]][0] >= 3 :
+                        final_judge += 1
                     
         if final_judge != 0:
             new = {key:value}
@@ -368,7 +375,7 @@ def interference(current_legalhands,field):
 
         for i in range(20):
             for j in range(20):
-                if nowfield[i][j] == 1 and field[i][j] != 1 and inter_field[i][j] % 10 == 1:
+                if nowfield[i][j] == 1 and field[i][j] != 1 and inter_field[i][j] % 10 == 1 and inter_field[i][j] /10 >= 2 :
                     judge += 1
         if judge >= 2 :
             new = {key:value}

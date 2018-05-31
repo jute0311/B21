@@ -1,4 +1,3 @@
-
 from blokus.player import Player
 from blokus.utils import encodeFourCode
 
@@ -54,7 +53,7 @@ class CPlayer(Player):
 			hand = encodeFourCode(18, 1, 'r', 6)
 		elif self.count == 2:
 			hand = encodeFourCode(15, 4, 's', 2)
-		elif self.count == 3:
+		elif self.count == 3 and (self.number == 1 or self.number == 2):
 			hand = encodeFourCode(12, 7, 'p', 6)
 		else:
 			hand = decideTheBestHand(self.number,field,player1,pieces,self.count,board)

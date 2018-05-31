@@ -263,7 +263,7 @@ def selectSmartly(current_legalhands,old_player1):
         return current_legalhands
 
 #相手の角に入り込み、次のピースがおけるか確認
-def selectSmartly2(current_legalhands,old_player1,pieces):
+def selectSmartly2(current_legalhands,old_player1,pieces,count):
     '''
     相手の角のところに置くように作っていく
     新しくできた11の領域があいてのスペースの隙間に入っているか確かめる
@@ -316,8 +316,12 @@ def selectSmartly2(current_legalhands,old_player1,pieces):
                     now_selected_legalhands = selectBySizeOfPiece(now_legalhands)
                     name, val =random.choice(list(now_selected_legalhands.items()))
                     pieces_size = getPiecesSize()
-                    if pieces_size[val[0]][0] >= 3 :
-                        final_judge += 1
+                    if count <= 10 :
+                        if pieces_size[val[0]][0] >= 4 :
+                            final_judge += 1
+                    else :
+                        if pieces_size[val[0]][0] >= 3 :
+                            final_judge += 1
                     
         if final_judge != 0:
             new = {key:value}
@@ -327,6 +331,76 @@ def selectSmartly2(current_legalhands,old_player1,pieces):
         return selected_legalhands
     else :
         return current_legalhands
+
+#相手の角に入り込み、次のピースがおけるか確認
+def selectSmartly3(current_legalhands,old_player1,pieces,count):
+    '''
+    相手の角のところに置くように作っていく
+    新しくできた11の領域があいてのスペースの隙間に入っているか確かめる
+    さらにそのスペースにおけるピースを確認する
+    '''
+
+    selected_legalhands = {}
+
+    p1 = [1,0]
+    p2 = [0,0]
+    p3 = [0,0]
+    p4 = [0,0]
+    for key,value in current_legalhands.items():
+        current_pieces = [] #次に置くpieceを格納
+        now_legalhands = {}
+        field = value[5].copy()
+        (after_field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4) #new field作成
+        judge = 0
+        final_judge = 0
+        for place in player1: #おける場所
+            if place not in old_player1: #置けた場所
+                i = place[0] #新しくおける場所
+                j = place[1]
+                if 0 < i < 19 and 0 < j < 19 :
+                    if after_field[i-1][j] != 0 and after_field[i-1][j] != 10 and after_field[i-1][j] != 11 \
+                        and after_field[i][j-1] != 0 and after_field[i][j-1] != 10 and after_field[i][j-1] != 11\
+                        and after_field[i-1][j-1] == 1:
+                        judge += 1
+                    elif after_field[i][j-1] != 0 and after_field[i][j-1] != 10 and after_field[i][j-1] != 11 \
+                        and after_field[i+1][j] != 0 and  after_field[i+1][j] != 10 and after_field[i+1][j] != 11 \
+                        and after_field[i+1][j-1] == 1:
+                        judge += 1
+                    elif after_field[i+1][j] != 0 and  after_field[i+1][j] != 10 and after_field[i+1][j] != 11 \
+                        and after_field[i][j+1] != 0 and after_field[i][j+1] != 10 and after_field[i][j+1] != 11 \
+                        and after_field[i+1][j+1] == 1:
+                        judge += 1
+                    elif after_field[i][j+1] != 0 and after_field[i][j+1] != 10 and after_field[i][j+1] != 11 \
+                        and after_field[i-1][j] != 0 and after_field[i-1][j] != 10 and after_field[i-1][j] != 11 \
+                        and after_field[i-1][j+1] == 1:
+                        judge += 1
+                    
+                if judge != 0:
+                    for piece in pieces:
+                        if piece != value[0]:
+                            current_pieces.append(piece)
+
+                now_legalhands = getAllLegalhands(after_field,[[i, j]], current_pieces)
+                
+                if now_legalhands != {} :
+                    now_selected_legalhands = selectBySizeOfPiece(now_legalhands)
+                    name, val =random.choice(list(now_selected_legalhands.items()))
+                    pieces_size = getPiecesSize()
+                    if count <= 10 :
+                        if pieces_size[val[0]][0] >= 4 :
+                            final_judge += 1
+                    else :
+                        if pieces_size[val[0]][0] >= 3 :
+                            final_judge += 1
+                    
+        if final_judge != 0:
+            new = {key:value}
+            selected_legalhands.update(new)
+
+    if selected_legalhands != {} :
+        return selected_legalhands
+    else :
+        return current_legalhands 
 
 #置ける場所が増えないやつを削除
 def filter(current_legalhands,old_player1):
@@ -358,12 +432,12 @@ def filter(current_legalhands,old_player1):
         return current_legalhands
 
 #相手のブロックの邪魔をする
-def interference(current_legalhands,field):
+def interference(current_legalhands,board):
     p1 = [0,0]
     p2 = [1,0]
     p3 = [1,0]
     p4 = [1,0]
-
+    field = board.copy()
     selected_legalhands = {}
     (inter_field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4)
     for key,value in current_legalhands.items():
@@ -375,9 +449,9 @@ def interference(current_legalhands,field):
 
         for i in range(20):
             for j in range(20):
-                if nowfield[i][j] == 1 and field[i][j] != 1 and inter_field[i][j] % 10 == 1 and inter_field[i][j] /10 >= 2 :
+                if nowfield[i][j] == 1 and field[i][j] != 1 and inter_field[i][j] % 10 == 1  :
                     judge += 1
-        if judge >= 2 :
+        if judge >= 1 :
             new = {key:value}
             selected_legalhands.update(new)
     
@@ -385,3 +459,66 @@ def interference(current_legalhands,field):
         return selected_legalhands
     else :
         return current_legalhands
+
+#絶対における場所の把握
+def onlyMe(current_legalhands,board):
+    
+    field = board.copy()
+    selected_legalhands = {}
+    p1 = [0,0]
+    p2 = [1,1]
+    p3 = [0,0]
+    p4 = [0,0]
+    (p2_field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4)
+    p1 = [0,0]
+    p2 = [0,0]
+    p3 = [1,1]
+    p4 = [0,0]
+    (p3_field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4)
+    p1 = [0,0]
+    p2 = [0,0]
+    p3 = [0,0]
+    p4 = [1,1]
+    (p4_field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4)
+
+    for key,value in current_legalhands.items():
+        nowfield = value[5].copy()
+        removed_pieces = []
+        judge = 0
+        
+        for i in range(20):
+            for j in range(20):
+                if nowfield[i][j] == 1 and field[i][j] != 1 and p2_field[i][j] % 10 != 0 \
+                                                            and p3_field[i][j] % 10 != 0 \
+                                                            and p4_field[i][j] % 10 != 0:
+                    judge += 1
+        if judge == 0:
+            if value[0] not in removed_pieces:
+                removed_pieces.append(value[0])
+        else:
+            if value[0] not in removed_pieces:
+                new = {key:value}
+                selected_legalhands.update(new)
+
+    if selected_legalhands != {} :
+        return selected_legalhands
+    else :
+        return current_legalhands
+
+#新しくおける場所が?0だったらok
+
+
+#広い領域を見つけて、そこを見直す
+def findSpace(current_legalhands,field):
+    selected_legalhands = {}
+    judge = []
+    for i1 in range(4):
+        for j1 in range(4):
+            judge[i1][j1] = 0
+            for i2 in range(5):
+                for j2 in range(5):
+                    if field[i1*5 + i2][j1*5 + j2] == 0:
+                        judge[i1][j1] += 1
+
+
+    return selected_legalhands

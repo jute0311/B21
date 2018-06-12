@@ -77,9 +77,15 @@ def decideTheBestHand(number,field,player1,pieces,count,board) :
                 #print("1 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
+                survived_legalhands = findSpace(survived_legalhands,field)
+                #print("1 : {0}".format(len(survived_legalhands)))
+
+            if len(survived_legalhands) != 1:
                 survived_legalhands = filter(survived_legalhands,player1)
                 #print("2 : {0}".format(len(survived_legalhands))) #重い
             
+            
+
             if len(survived_legalhands) != 1:
                 survived_legalhands = selectSmartlybf(survived_legalhands,field,player1)
                 #print("3 : {0}".format(len(survived_legalhands)))
@@ -104,12 +110,13 @@ def decideTheBestHand(number,field,player1,pieces,count,board) :
                 #print("2 : {0}".format(len(survived_legalhands))) #重い
 
             if len(survived_legalhands) != 1:
+                survived_legalhands = selectBySizeOfPiece(survived_legalhands)
+                #print("1 : {0}".format(len(survived_legalhands)))
+
+            if len(survived_legalhands) != 1:
                 survived_legalhands = selectSmartly2(survived_legalhands,player1,pieces,count)
                 #print("4 : {0}".format(len(survived_legalhands))) #重い
             
-            if len(survived_legalhands) != 1:
-                survived_legalhands = selectBySizeOfPiece(survived_legalhands)
-                #print("1 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
                 survived_legalhands = selectSmartlybf(survived_legalhands,field,player1)

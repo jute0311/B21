@@ -511,14 +511,29 @@ def onlyMe(current_legalhands,board):
 #広い領域を見つけて、そこを見直す
 def findSpace(current_legalhands,field):
     selected_legalhands = {}
-    judge = []
+    judge = [
+                [0,0,0,0], \
+                [0,0,0,0], \
+                [0,0,0,0], \
+                [0,0,0,0], \
+            ]
+
     for i1 in range(4):
         for j1 in range(4):
-            judge[i1][j1] = 0
             for i2 in range(5):
                 for j2 in range(5):
                     if field[i1*5 + i2][j1*5 + j2] == 0:
                         judge[i1][j1] += 1
 
+    for i1 in range(4):
+        for j1 in range(4):
+            if(judge[i1][j1] > 15):
+                 for key,value in current_legalhands.items():
+                     if(i1*4 <= value[6]<= (i1+1)*4 and j1*4 <= value[7] <= (j1+1)*4 ):
+                        new = {key:value}
+                        selected_legalhands.update(new)
 
-    return selected_legalhands
+    if selected_legalhands != {} :
+        return selected_legalhands
+    else :
+        return current_legalhands

@@ -169,7 +169,7 @@ def selectPutPlaces(current_places,field):
         return current_places
 
 #広げたスペースのところに置いていく
-def selectSmartlybf(current_legalhands,field,current_places):
+def selectSmartlybf(current_legalhands,field,current_places,count):
     '''
     広げたスペースのところに置いていく
     '''
@@ -210,8 +210,14 @@ def selectSmartlybf(current_legalhands,field,current_places):
             judge_w += 1   
 
 
-    if selected_legalhands != {} and len(selected_places) >= 2:
-        return selected_legalhands
+    if selected_legalhands != {} :
+        if count < 6 and len(selected_places) >= 2:
+            return selected_legalhands
+        elif 6 <= count and len(selected_places) >= 1:
+            return selected_legalhands
+        else :
+            return current_legalhands
+
     else :
         return current_legalhands
 
@@ -270,7 +276,9 @@ def selectSmartly2(current_legalhands,old_player1,pieces,count):
     さらにそのスペースにおけるピースを確認する
     '''
 
-    selected_legalhands = {}
+    selected_legalhands5 = {}
+    selected_legalhands4 = {}
+    selected_legalhands3 = {}
 
     p1 = [1,0]
     p2 = [0,0]
@@ -316,23 +324,33 @@ def selectSmartly2(current_legalhands,old_player1,pieces,count):
                     now_selected_legalhands = selectBySizeOfPiece(now_legalhands)
                     name, val =random.choice(list(now_selected_legalhands.items()))
                     pieces_size = getPiecesSize()
-                    if count <= 10 :
-                        if pieces_size[val[0]][0] >= 4 :
-                            final_judge += 1
-                    else :
-                        if pieces_size[val[0]][0] >= 3 :
-                            final_judge += 1
+                    if pieces_size[val[0]][0] >= 5 :
+                        final_judge = 5
+                    elif pieces_size[val[0]][0] >= 4 :
+                        final_judge = 4
+                    elif pieces_size[val[0]][0] >= 3 and count > 10:
+                        final_judge = 3
                     
-        if final_judge != 0:
+        if final_judge == 5:
             new = {key:value}
-            selected_legalhands.update(new)
+            selected_legalhands5.update(new)
+        elif final_judge >= 4:
+            new = {key:value}
+            selected_legalhands4.update(new)
+        elif final_judge >= 3:
+            new = {key:value}
+            selected_legalhands3.update(new)
 
-    if selected_legalhands != {} :
-        return selected_legalhands
+    if selected_legalhands5 != {} :
+        return selected_legalhands5
+    elif selected_legalhands4 != {} :
+        return selected_legalhands4
+    elif selected_legalhands3 != {} :
+        return selected_legalhands3
     else :
         return current_legalhands
 
-#相手の角に入り込み、次のピースがおけるか確認
+#相手の角に入り込み、次のピースがおけるか確認（未完成）
 def selectSmartly3(current_legalhands,old_player1,pieces,count):
     '''
     相手の角のところに置くように作っていく
@@ -342,60 +360,21 @@ def selectSmartly3(current_legalhands,old_player1,pieces,count):
 
     selected_legalhands = {}
 
+    now_legalhands = selectSmartly2(current_legalhands,old_player1,pieces,count)
+
     p1 = [1,0]
     p2 = [0,0]
     p3 = [0,0]
     p4 = [0,0]
-    for key,value in current_legalhands.items():
-        current_pieces = [] #次に置くpieceを格納
-        now_legalhands = {}
+
+    for key,value in now_legalhands.items():
         field = value[5].copy()
         (after_field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4) #new field作成
-        judge = 0
-        final_judge = 0
-        for place in player1: #おける場所
-            if place not in old_player1: #置けた場所
-                i = place[0] #新しくおける場所
-                j = place[1]
-                if 0 < i < 19 and 0 < j < 19 :
-                    if after_field[i-1][j] != 0 and after_field[i-1][j] != 10 and after_field[i-1][j] != 11 \
-                        and after_field[i][j-1] != 0 and after_field[i][j-1] != 10 and after_field[i][j-1] != 11\
-                        and after_field[i-1][j-1] == 1:
-                        judge += 1
-                    elif after_field[i][j-1] != 0 and after_field[i][j-1] != 10 and after_field[i][j-1] != 11 \
-                        and after_field[i+1][j] != 0 and  after_field[i+1][j] != 10 and after_field[i+1][j] != 11 \
-                        and after_field[i+1][j-1] == 1:
-                        judge += 1
-                    elif after_field[i+1][j] != 0 and  after_field[i+1][j] != 10 and after_field[i+1][j] != 11 \
-                        and after_field[i][j+1] != 0 and after_field[i][j+1] != 10 and after_field[i][j+1] != 11 \
-                        and after_field[i+1][j+1] == 1:
-                        judge += 1
-                    elif after_field[i][j+1] != 0 and after_field[i][j+1] != 10 and after_field[i][j+1] != 11 \
-                        and after_field[i-1][j] != 0 and after_field[i-1][j] != 10 and after_field[i-1][j] != 11 \
-                        and after_field[i-1][j+1] == 1:
-                        judge += 1
-                    
-                if judge != 0:
-                    for piece in pieces:
-                        if piece != value[0]:
-                            current_pieces.append(piece)
-
-                now_legalhands = getAllLegalhands(after_field,[[i, j]], current_pieces)
-                
-                if now_legalhands != {} :
-                    now_selected_legalhands = selectBySizeOfPiece(now_legalhands)
-                    name, val =random.choice(list(now_selected_legalhands.items()))
-                    pieces_size = getPiecesSize()
-                    if count <= 10 :
-                        if pieces_size[val[0]][0] >= 4 :
-                            final_judge += 1
-                    else :
-                        if pieces_size[val[0]][0] >= 3 :
-                            final_judge += 1
-                    
-        if final_judge != 0:
+        now_selected_legalhands = selectSmartly2(now_legalhands,player1,pieces,count)
+        if now_selected_legalhands != {} :
             new = {key:value}
             selected_legalhands.update(new)
+
 
     if selected_legalhands != {} :
         return selected_legalhands
@@ -460,6 +439,36 @@ def interference(current_legalhands,board):
     else :
         return current_legalhands
 
+#相手の侵入を防ぐ(未完成)
+def interferenceEnter(current_legalhands,board):
+    p1 = [0,0]
+    p2 = [1,0]
+    p3 = [1,0]
+    p4 = [1,0]
+    field = board.copy()
+    selected_legalhands = {}
+    (inter_field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4)
+    for key,value in current_legalhands.items():
+        current_pieces = [] #次に置くpieceを格納
+        now_legalhands = {}
+        nowfield = value[5].copy()
+
+        judge = 0
+
+        for i in range(20):
+            for j in range(20):
+                if nowfield[i][j] == 1 and field[i][j] != 1 and inter_field[i][j] % 10 == 1  :
+                    judge += 1
+        if judge >= 1 :
+            new = {key:value}
+            selected_legalhands.update(new)
+    
+    if selected_legalhands != {} :
+        return selected_legalhands
+    else :
+        return current_legalhands
+
+
 #絶対における場所の把握
 def onlyMe(current_legalhands,board):
     
@@ -505,11 +514,9 @@ def onlyMe(current_legalhands,board):
     else :
         return current_legalhands
 
-#新しくおける場所が?0だったらok
-
 
 #広い領域を見つけて、そこを見直す
-def findSpace(current_legalhands,field):
+def findSpace(current_legalhands,field,count):
     selected_legalhands = {}
     judge = [
                 [0,0,0,0], \
@@ -527,7 +534,11 @@ def findSpace(current_legalhands,field):
 
     for i1 in range(4):
         for j1 in range(4):
-            if(judge[i1][j1] > 15):
+            if(count < 10):
+                check = 20
+            else:
+                check = 15
+            if(judge[i1][j1] > check):
                  for key,value in current_legalhands.items():
                      if(i1*4 <= value[6]<= (i1+1)*4 and j1*4 <= value[7] <= (j1+1)*4 ):
                         new = {key:value}

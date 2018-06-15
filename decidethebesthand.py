@@ -87,7 +87,7 @@ def decideTheBestHand(number,field,player1,pieces,count,board) :
                 #print("3 : {0}".format(len(survived_legalhands)))
             
             if len(survived_legalhands) != 1:
-                survived_legalhands = selectSmartly2(survived_legalhands,player1,pieces,count)
+                survived_legalhands = selectSmartly3(survived_legalhands,player1,pieces,count)
                 #print("4 : {0}".format(len(survived_legalhands))) #重い
 
             if len(survived_legalhands) != 1:

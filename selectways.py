@@ -494,15 +494,17 @@ def onlyMe(current_legalhands,board):
         nowfield = value[5].copy()
         removed_pieces = []
         judge = 0
+        pieces_size = getPiecesSize()
         
         for i in range(20):
             for j in range(20):
                 if nowfield[i][j] == 1 and field[i][j] != 1 and p2_field[i][j] % 10 != 0 \
                                                             and p3_field[i][j] % 10 != 0 \
                                                             and p4_field[i][j] % 10 != 0:
-                    judge += 1
+                    judge = 1
         if judge == 0:
             if value[0] not in removed_pieces:
+                if pieces_size[value[0]] >= 4:
                 removed_pieces.append(value[0])
         else:
             if value[0] not in removed_pieces:

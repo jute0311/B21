@@ -7,7 +7,7 @@ from players.B21.makefield import *
 
 import time
 
-class CPlayer(Player):
+class CPlayer21(Player):
 	def __init__(self):
 		super().__init__()
 

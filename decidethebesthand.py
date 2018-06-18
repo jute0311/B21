@@ -41,7 +41,6 @@ def decideTheBestHand(number,field,player1,pieces,count,board) :
     all_legalhands = getAllLegalhands(field,player1,pieces)
 
     if all_legalhands == {} :
-        print(pieces)
         return 'pass'
 
     else:
@@ -67,7 +66,12 @@ def decideTheBestHand(number,field,player1,pieces,count,board) :
 
             if len(survived_legalhands) != 1:
                 survived_legalhands = selectByPutedPlace(survived_legalhands,field)
-                #print("3 : {0}".format(len(survived_legalhands)))
+                #print("3 : {0}".format(len(survived_legalhands)))            
+            
+            if len(survived_legalhands) != 1:
+                survived_legalhands = selectByNumberOfExcess(survived_legalhands)
+                #print("3 : {0}".format(len(survived_legalhands)))                 
+
 
         elif count <= 10 :
             survived_legalhands = all_legalhands
@@ -87,7 +91,7 @@ def decideTheBestHand(number,field,player1,pieces,count,board) :
                 #print("3 : {0}".format(len(survived_legalhands)))
             
             if len(survived_legalhands) != 1:
-                survived_legalhands = selectSmartly3(survived_legalhands,player1,pieces,count)
+                survived_legalhands = selectSmartly2(survived_legalhands,player1,pieces,count)
                 #print("4 : {0}".format(len(survived_legalhands))) #重い
 
             if len(survived_legalhands) != 1:
@@ -160,3 +164,4 @@ def decideTheBestHand(number,field,player1,pieces,count,board) :
                               survived_legalhands[the_best_hand][4],\
                               survived_legalhands[the_best_hand][0],\
                               survived_legalhands[the_best_hand][1])
+                              

@@ -204,7 +204,7 @@ def selectSmartlybf(current_legalhands,field,current_places,count):
                 and field[i-1][j] != 0 and field[i-1][j] != 10 and field[i-1][j] != 11 \
                 and field[i-1][j+1] == 1:
                 new = {key:value}
-                selected_legalhands.update(new)    
+                selected_legalhands.update(new)
                 judge_p = 1
         if judge_p == 1:
             judge_w += 1   
@@ -525,7 +525,7 @@ def stayClose(current_legalhands,board):
 
     for key,value in current_legalhands.items():
         field = board.copy()
-        now_field = value[5]
+        now_field = value[5].copy()
         max = 0
         judge = 0
         for i in range(20):
@@ -534,7 +534,7 @@ def stayClose(current_legalhands,board):
                     for k in range(-1,2):
                         for l in range(-1,2):
                             if 0 <= i+k <= 19 and 0 <= j+l <= 19 :
-                                if (k == -1 and l == 1) or (k == 0 and (l == -1 or l == 1)) or (k == 1 and l == 0):
+                                if (k == -1 and l == 0) or (k == 0 and (l == -1 or l == 1)) or (k == 1 and l == 0):
                                     if now_field[i+k][j+l] == 2 \
                                     or now_field[i+k][j+l] == 3 \
                                     or now_field[i+k][j+l] == 4 :

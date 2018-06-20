@@ -353,27 +353,52 @@ def selectSmartly3(current_legalhands,old_player1,pieces,count):
     '''
 
     selected_legalhands = {}
+    very_selected_legalhands = {}
     p1 = [1,1]
     p2 = [0,0]
     p3 = [0,0]
     p4 = [0,0]
+    now_canput = []
 
     for key,value in current_legalhands.items():
-        field = value[5].copy()
+        if value[0] not in now_canput:
+            now_canput.append(value[0])
+
+    for key,value in current_legalhands.items():
         now_pieces = []
+        field = value[5].copy()
         for piece in pieces:
-            if piece != value[0]:
-                now_pieces.append(piece)
+            if value[0] != piece:
+                now_pieces.append(value[0])
+
         (after_field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4) #new field作成
         now_selected_legalhands = getAllLegalhands(after_field,player1,now_pieces)
         for key,value in now_selected_legalhands.items():
-            if value[0] not in pieces:
+            if value[0] not in now_canput:
                 new = {key:value}
                 selected_legalhands.update(new)
-            
+                next_canput = []
+                for key1,value1 in selected_legalhands.items():
+                    if value1[0] not in next_canput:
+                        next_canput.append(value1[0])
 
+                for key1,value1 in current_legalhands.items():
+                    field = value[5].copy()
+                    next_pieces = []
+                    for piece in next_pieces:
+                        if value[0] != piece:
+                            next_pieces.append(value1[0])
 
-    if selected_legalhands != {} :
+                    (after_field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4) #new field作成
+                    now_selected_legalhands = getAllLegalhands(after_field,player1,now_pieces)
+                    for key,value in now_selected_legalhands.items():
+                        if value[0] not in next_canput:
+                            new = {key:value}
+                            very_selected_legalhands.update(new)
+                    
+    if very_selected_legalhands != {}:
+        return selected_legalhands
+    elif selected_legalhands != {} :
         return selected_legalhands
     else :
         return current_legalhands 

@@ -677,6 +677,60 @@ def defence(current_legalhands,board):
         else :
             return current_legalhands
 
+def defence2(current_legalhands,old_player1,board):
+    selected_legalhands = {}
+    field = board.copy()
+    p1 = [1,0]
+    p2 = [1,0]
+    p3 = [1,0]
+    p4 = [1,0]
+
+    (field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4)
+    
+    for piece in old_player1:
+        i = piece[0]
+        j = piece[1]
+        judge = 0
+        if 0 <= i-1 <= 19 and 0 <= j-1 <= 19:
+            if field[i-1][j-1] == 1:
+                for k in range(5):
+                    for l in range(5):
+                        if 0 <= i+k <= 19 and 0 <= j+l <= 19:
+                            if field[i+k][j+l] == 11:
+                                judge += 1 
+        if 0 <= i-1 <= 19 and 0 <= j+1 <= 19:
+            if field[i-1][j+1] == 1:
+                for k in range(5):
+                    for l in range(5):
+                        if 0 <= i+k <= 19 and 0 <= j-l <= 19:
+                            if field[i+k][j-l] == 11:
+                                judge += 1 
+        if 0 <= i+1 <= 19 and 0 <= j-1 <= 19:
+            if field[i+1][j-1] == 1:
+                for k in range(5):
+                    for l in range(5):
+                        if 0 <= i-k <= 19 and 0 <= j+l <= 19:
+                            if field[i-k][j+l] == 11:
+                                judge += 1  
+        if 0 <= i+1 <= 19 and 0 <= j+1 <= 19:
+            if field[i+1][j+1] == 1:
+                for k in range(5):
+                    for l in range(5):
+                        if 0 <= i+k <= 19 and 0 <= j+l <= 19:
+                            if field[i+k][j+l] == 11:
+                                judge += 1 
+        if judge <= 3:
+            for key,value in current_legalhands.items():
+                if value[6] == i and value[7] == j:
+                    new = {key:value}
+                    selected_legalhands.update(new)
+
+    if selected_legalhands != {} :
+        return selected_legalhands
+    else :
+        return current_legalhands
+
+
 #絶対における場所の把握
 def onlyMe(current_legalhands,board):
     
@@ -937,6 +991,19 @@ def findSpace3(current_legalhands,old_player1,board):
                             new = {key:value}
                             selected_legalhands.update(new)
 
+    if selected_legalhands != {} :
+        return selected_legalhands
+    else :
+        return current_legalhands
+
+#特定のピースを置く
+def findpiece(current_legalhands,piece):
+    selected_legalhands = {}
+    for key,value in current_legalhands.items():
+        if value[0] == piece:
+            new = {key:value}
+            selected_legalhands.update(new)
+    
     if selected_legalhands != {} :
         return selected_legalhands
     else :

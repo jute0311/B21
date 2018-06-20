@@ -6,7 +6,7 @@ from blokus.utils import encodeFourCode
 
 from players.B21V7.makealllegalhands import *
 
-from players.B21V7.selectwaysV2 import *
+from players.B21V7.selectwaysV3 import *
 
 '''
 合法手の中から最適手を選ぶ関数
@@ -252,6 +252,11 @@ def decideTheBestHand7(number,field,player1,pieces,count,board) :
                 print("8 : {0}".format(len(survived_legalhands)))
         
         elif count <=21:
+
+            if len(survived_legalhands) != 1 :
+                if 'h' in pieces:
+                    survived_legalhands  = findpiece(survived_legalhands,'h')
+                    print("1 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
                 survived_legalhands  = onlyMe(survived_legalhands,board)

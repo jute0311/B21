@@ -4,15 +4,15 @@ import time
 from blokus.piece import Pieces
 from blokus.utils import encodeFourCode
 
-from players.B21.makealllegalhands import *
+from players.B21V7.makealllegalhands import *
 
-from players.B21.selectwaysV2 import *
+from players.B21V7.selectwaysV2 import *
 
 '''
 合法手の中から最適手を選ぶ関数
 '''
 
-def decideTheBestHand5(number,field,player1,pieces,count,board) :
+def decideTheBestHand7(number,field,player1,pieces,count,board) :
 
     the_best_hand = ''    #選ばれたピースを格納する変数の初期化
 
@@ -228,12 +228,12 @@ def decideTheBestHand5(number,field,player1,pieces,count,board) :
                 print("2 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
-                survived_legalhands = selectSmartly2(survived_legalhands,player1,pieces,count)
-                print("4 : {0}".format(len(survived_legalhands))) #重い
+                survived_legalhands = defence2(survived_legalhands,player1,board)
+                print("3 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
-                survived_legalhands = selectSmartlybf(survived_legalhands,field,player1,count)
-                print("5 : {0}".format(len(survived_legalhands)))
+                survived_legalhands = selectSmartly2(survived_legalhands,player1,pieces,count)
+                print("4 : {0}".format(len(survived_legalhands))) #重い
 
             if len(survived_legalhands) != 1:
                 survived_legalhands = interference(survived_legalhands,board)
@@ -254,6 +254,10 @@ def decideTheBestHand5(number,field,player1,pieces,count,board) :
         elif count <=21:
 
             if len(survived_legalhands) != 1:
+                survived_legalhands  = onlyMe(survived_legalhands,board)
+                print("1 : {0}".format(len(survived_legalhands)))
+
+            if len(survived_legalhands) != 1:
                 survived_legalhands = selectSmartly2(survived_legalhands,player1,pieces,count)
                 print("2 : {0}".format(len(survived_legalhands)))
 
@@ -269,9 +273,6 @@ def decideTheBestHand5(number,field,player1,pieces,count,board) :
                 survived_legalhands = findSpace3(survived_legalhands,player1,board)
                 print("11 : {0}".format(len(survived_legalhands)))
 
-            if len(survived_legalhands) != 1:
-                survived_legalhands  = onlyMe(survived_legalhands,board)
-                print("1 : {0}".format(len(survived_legalhands)))
 
         print()
         name, val =random.choice(list(survived_legalhands.items()))

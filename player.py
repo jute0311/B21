@@ -1,16 +1,11 @@
 from blokus.player import Player
 from blokus.utils import encodeFourCode
-
-from players.B21.decidethebesthand1 import decideTheBestHand1
-from players.B21.decidethebesthand2 import decideTheBestHand2
-from players.B21.decidethebesthand3 import decideTheBestHand3
-from players.B21.decidethebesthand4 import decideTheBestHand4
-from players.B21.decidethebesthand5 import decideTheBestHand5
+from players.B21V7.decidethebesthand7 import decideTheBestHand7
 from players.B21.makefield import *
 
 import time
 
-class CPlayerV5(Player):
+class CPlayerV7(Player):
 	def __init__(self):
 		super().__init__()
 
@@ -60,7 +55,7 @@ class CPlayerV5(Player):
 		elif self.count == 3 and (self.number == 1 or self.number == 2):
 			hand = encodeFourCode(12, 7, 'p', 6)
 		else:
-			hand = decideTheBestHand5(self.number,field,player1,pieces,self.count,board)
+			hand = decideTheBestHand7(self.number,field,player1,pieces,self.count,board)
 			
 		return hand
 		

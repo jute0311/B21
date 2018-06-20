@@ -27,7 +27,7 @@ def decideTheBestHand2(number,field,player1,pieces,count,board) :
         survived_legalhands = all_legalhands
         print("{0}回目".format(count))
 
-        if count <= 4 and number <= 1:
+        if count <= 4:
             if len(survived_legalhands) != 1:
                 survived_legalhands = selectBySizeOfPiece(survived_legalhands)
                 print("1 : {0}".format(len(survived_legalhands)))
@@ -112,16 +112,17 @@ def decideTheBestHand2(number,field,player1,pieces,count,board) :
                 print("2 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
+                survived_legalhands = findSpace2(survived_legalhands,player1,board)
+                print("11 : {0}".format(len(survived_legalhands)))
+
+            if len(survived_legalhands) != 1:
                 survived_legalhands = selectSmartlybf(survived_legalhands,field,player1,count)
                 print("5 : {0}".format(len(survived_legalhands)))
+
             
             if len(survived_legalhands) != 1:
                 survived_legalhands = selectSmartly2(survived_legalhands,player1,pieces,count)
                 print("6 : {0}".format(len(survived_legalhands))) #重い
-
-            if len(survived_legalhands) != 1:
-                survived_legalhands = findSpace2(survived_legalhands,player1,board)
-                print("11 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
                 survived_legalhands = interference(survived_legalhands,board)
@@ -134,10 +135,6 @@ def decideTheBestHand2(number,field,player1,pieces,count,board) :
             if len(survived_legalhands) != 1:
                 survived_legalhands = selectByPutPlace(survived_legalhands)
                 print("5 : {0}".format(len(survived_legalhands)))
-
-            if len(survived_legalhands) != 1:
-                survived_legalhands = findSpace3(survived_legalhands,player1,board)
-                print("11 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
                 survived_legalhands = defence(survived_legalhands,board)
@@ -171,6 +168,10 @@ def decideTheBestHand2(number,field,player1,pieces,count,board) :
                 print("3 : {0}".format(len(survived_legalhands))) #重い
 
             if len(survived_legalhands) != 1:
+                survived_legalhands = findSpace2(survived_legalhands,player1,board)
+                print("11 : {0}".format(len(survived_legalhands)))
+
+            if len(survived_legalhands) != 1:
                 survived_legalhands = selectSmartlybf(survived_legalhands,field,player1,count)
                 print("5 : {0}".format(len(survived_legalhands)))
             
@@ -178,9 +179,6 @@ def decideTheBestHand2(number,field,player1,pieces,count,board) :
                 survived_legalhands = selectSmartly2(survived_legalhands,player1,pieces,count)
                 print("6 : {0}".format(len(survived_legalhands))) #重い
 
-            if len(survived_legalhands) != 1:
-                survived_legalhands = findSpace2(survived_legalhands,player1,board)
-                print("11 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
                 survived_legalhands = selectByPutPlace(survived_legalhands)
@@ -210,7 +208,7 @@ def decideTheBestHand2(number,field,player1,pieces,count,board) :
                 survived_legalhands = selectByPutedPlace(survived_legalhands,field)
                 print("10 : {0}".format(len(survived_legalhands)))
 
-        elif 11 <= count <= 15 :
+        elif count <= 15 :
             if len(survived_legalhands) != 1:
                 survived_legalhands = filter(survived_legalhands,player1)
                 print("1 : {0}".format(len(survived_legalhands))) #重い
@@ -221,10 +219,6 @@ def decideTheBestHand2(number,field,player1,pieces,count,board) :
 
             if len(survived_legalhands) != 1:
                 survived_legalhands  = onlyMe(survived_legalhands,board)
-                print("1 : {0}".format(len(survived_legalhands)))
-
-            if len(survived_legalhands) != 1:
-                survived_legalhands  = mySpace1(survived_legalhands,player1,board)
                 print("1 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
@@ -259,7 +253,11 @@ def decideTheBestHand2(number,field,player1,pieces,count,board) :
                 survived_legalhands = selectByPutedPlace(survived_legalhands,field)
                 print("8 : {0}".format(len(survived_legalhands)))
         
-        elif 15 < count :
+        elif count <=18:
+
+            if len(survived_legalhands) != 1:
+                survived_legalhands = selectSmartly2(survived_legalhands,player1,pieces,count)
+                print("2 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
                 survived_legalhands = selectSmartly3(survived_legalhands,player1,pieces,count)
@@ -272,6 +270,25 @@ def decideTheBestHand2(number,field,player1,pieces,count,board) :
             if len(survived_legalhands) != 1:
                 survived_legalhands = selectBySizeOfPiece(survived_legalhands)
                 print("3 : {0}".format(len(survived_legalhands)))
+
+        else:
+            if len(survived_legalhands) != 1:
+                survived_legalhands  = onlyMe(survived_legalhands,board)
+                print("1 : {0}".format(len(survived_legalhands)))
+
+            if len(survived_legalhands) != 1:
+                survived_legalhands = selectSmartly2(survived_legalhands,player1,pieces,count)
+                print("2 : {0}".format(len(survived_legalhands)))
+
+            if len(survived_legalhands) != 1:
+                survived_legalhands = selectSmartly3(survived_legalhands,player1,pieces,count)
+                print("2 : {0}".format(len(survived_legalhands)))
+
+            if len(survived_legalhands) != 1:
+                survived_legalhands = selectBySizeOfPiece(survived_legalhands)
+                print("3 : {0}".format(len(survived_legalhands)))
+
+
 
         print()
         name, val =random.choice(list(survived_legalhands.items()))

@@ -12,7 +12,7 @@ from players.B21.selectways import *
 合法手の中から最適手を選ぶ関数
 '''
 
-def decideTheBestHand3(number,field,player1,pieces,count,board) :
+def decideTheBestHand4(number,field,player1,pieces,count,board) :
 
     the_best_hand = ''    #選ばれたピースを格納する変数の初期化
 
@@ -169,12 +169,12 @@ def decideTheBestHand3(number,field,player1,pieces,count,board) :
                 print("3 : {0}".format(len(survived_legalhands))) #重い
 
             if len(survived_legalhands) != 1:
-                survived_legalhands = findSpace3(survived_legalhands,player1,board)
-                print("11 : {0}".format(len(survived_legalhands)))
-
-            if len(survived_legalhands) != 1:
                 survived_legalhands = selectSmartlybf(survived_legalhands,field,player1,count)
                 print("5 : {0}".format(len(survived_legalhands)))
+
+            if len(survived_legalhands) != 1:
+                survived_legalhands = findSpace3(survived_legalhands,player1,board)
+                print("11 : {0}".format(len(survived_legalhands)))
             
             if len(survived_legalhands) != 1:
                 survived_legalhands = selectSmartly2(survived_legalhands,player1,pieces,count)
@@ -215,15 +215,11 @@ def decideTheBestHand3(number,field,player1,pieces,count,board) :
                 print("1 : {0}".format(len(survived_legalhands))) #重い
 
             if len(survived_legalhands) != 1:
-                survived_legalhands = getEnterSpace(survived_legalhands,board)
-                print("2 : {0}".format(len(survived_legalhands)))
-
-            if len(survived_legalhands) != 1:
                 survived_legalhands  = onlyMe(survived_legalhands,board)
                 print("1 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
-                survived_legalhands = findSpace3(survived_legalhands,player1,board)
+                survived_legalhands = findSpace2(survived_legalhands,player1,board)
                 print("11 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
@@ -245,10 +241,6 @@ def decideTheBestHand3(number,field,player1,pieces,count,board) :
             if len(survived_legalhands) != 1:
                 survived_legalhands = defence(survived_legalhands,board)
                 print("3 : {0}".format(len(survived_legalhands)))
-            
-            if len(survived_legalhands) != 1:
-                survived_legalhands = findSpace2(survived_legalhands,player1,board)
-                print("11 : {0}".format(len(survived_legalhands)))
             
             if len(survived_legalhands) != 1:
                 survived_legalhands = stayClose(survived_legalhands,board)

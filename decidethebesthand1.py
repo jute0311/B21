@@ -32,7 +32,7 @@ all_legalhands[7] = 置いた場所のj座標
 
 '''
 
-def decideTheBestHand(number,field,player1,pieces,count,board) :
+def decideTheBestHand1(number,field,player1,pieces,count,board) :
 
     the_best_hand = ''    #選ばれたピースを格納する変数の初期化
 

@@ -344,7 +344,7 @@ def selectSmartly2(current_legalhands,old_player1,pieces,count):
     else :
         return current_legalhands
 
-#相手の角に入り込み、次のピースがおけるか確認（未完成）
+#相手の角に入り込み、次のピースがおけるか確認
 def selectSmartly3(current_legalhands,old_player1,pieces,count):
     '''
     相手の角のところに置くように作っていく
@@ -814,32 +814,32 @@ def findSpace2(current_legalhands,old_player1,board):
             if field[i-1][j-1] == 1:
                 for k in range(4):
                     for l in range(4):
-                        if 0 <= i+k-1 <= 19 and 0 <= j+l-1 <= 19:
+                        if 0 <= i+k <= 19 and 0 <= j+l <= 19:
                             if field[i+k-1][j+l-1]==0:
                                 j1 += 1
         if i-1 >= 0 and j+1 <= 19:
             if field[i-1][j+1] == 1:
                 for k in range(4):
                     for l in range(4):
-                        if 0 <= i+k-1 <= 19 and 0 <= j-l+1 <= 19:
+                        if 0 <= i+k <= 19 and 0 <= j-l <= 19:
                             if field[i+k-1][j-l+1]==0:
                                 j2 += 1
         if i+1 <= 19 and j-1 >= 0:
             if field[i+1][j-1] == 1:
                 for k in range(4):
                     for l in range(4):
-                        if 0 <= i-k+1 <= 19 and 0 <= j+l-1 <= 19:
+                        if 0 <= i-k <= 19 and 0 <= j+l <= 19:
                             if field[i-k+1][j+l-1]==0:
                                 j3 += 1
         if i+1 <= 19 and j+1 <= 19:
             if field[i+1][j+1] == 1:
                 for k in range(4):
                     for l in range(4):
-                        if 0 <= i-k+1 <= 19 and 0 <= j-l+1 <= 19:
+                        if 0 <= i-k <= 19 and 0 <= j-l <= 19:
                             if field[i-k+1][j-l+1]==0:
                                 j4 += 1
                             
-        if j1 >= 10 or j2 >= 10 or j3 >= 10 or j4 >= 10:
+        if j1 >= 8 or j2 >= 8 or j3 >= 8 or j4 >= 8:
             for key,value in current_legalhands.items():
                 if value[6] == i and value[7] == j:
                     new = {key:value}
@@ -875,8 +875,8 @@ def findSpace3(current_legalhands,old_player1,board):
                     if nowfield[i-1][j-1] == 1:
                         for k in range(4):
                             for l in range(4):
-                                if 0 <= i+k-1 <= 19 and 0 <= j+l-1 <= 19:
-                                    if nowfield[i+k-1][j+l-1]==0:
+                                if 0 <= i+k <= 19 and 0 <= j+l <= 19:
+                                    if nowfield[i+k][j+l]==0:
                                         j1 += 1
 
                 if i-1 >= 0 and j+1 <= 19:
@@ -884,26 +884,26 @@ def findSpace3(current_legalhands,old_player1,board):
                         for k in range(4):
                             for l in range(4):
                                 if 0 <= i+k-1 <= 19 and 0 <= j-l+1 <= 19:
-                                    if nowfield[i+k-1][j-l+1]==0:
+                                    if nowfield[i+k][j-l]==0:
                                         j2 += 1
 
                 if i+1 <= 19 and j-1 >= 0:
                     if nowfield[i+1][j-1] == 1:
                         for k in range(4):
                             for l in range(4):
-                                if 0 <= i-k+1 <= 19 and 0 <= j+l-1 <= 19:
-                                    if nowfield[i-k+1][j+l-1]==0:
+                                if 0 <= i-k <= 19 and 0 <= j+l <= 19:
+                                    if nowfield[i-k][j+l]==0:
                                         j3 += 1
 
                 if i+1 <= 19 and j+1 <= 19:
                     if nowfield[i+1][j+1] == 1:
                         for k in range(4):
                             for l in range(4):
-                                if 0 <= i-k+1 <= 19 and 0 <= j-l+1 <= 19:
-                                    if nowfield[i-k+1][j-l+1]==0:
+                                if 0 <= i-k <= 19 and 0 <= j-l <= 19:
+                                    if nowfield[i-k][j-l]==0:
                                         j4 += 1
                             
-                if j1 >= 10 or j2 >= 10 or j3 >= 10 or j4 >= 10:
+                if j1 >= 6 or j2 >= 6 or j3 >= 6 or j4 >= 6:
                     for key,value in current_legalhands.items():
                         if value[6] == i and value[7] == j:
                             new = {key:value}

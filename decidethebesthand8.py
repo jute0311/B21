@@ -12,7 +12,7 @@ from players.B21V7.selectwaysV3 import *
 合法手の中から最適手を選ぶ関数
 '''
 
-def decideTheBestHand7(number,field,player1,pieces,count,board) :
+def decideTheBestHand8(number,field,player1,pieces,count,board) :
 
     the_best_hand = ''    #選ばれたピースを格納する変数の初期化
 
@@ -237,10 +237,6 @@ def decideTheBestHand7(number,field,player1,pieces,count,board) :
             if len(survived_legalhands) != 1:
                 survived_legalhands = interference(survived_legalhands,board)
                 print("6 : {0}".format(len(survived_legalhands)))
-
-            if len(survived_legalhands) != 1:
-                survived_legalhands = defence(survived_legalhands,board)
-                print("3 : {0}".format(len(survived_legalhands)))
             
             if len(survived_legalhands) != 1:
                 survived_legalhands = stayClose(survived_legalhands,board)

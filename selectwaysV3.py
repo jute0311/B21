@@ -730,7 +730,6 @@ def defence2(current_legalhands,old_player1,board):
     else :
         return current_legalhands
 
-
 #絶対における場所の把握
 def onlyMe(current_legalhands,board):
     
@@ -998,6 +997,7 @@ def findSpace3(current_legalhands,old_player1,board):
 
 #特定のピースを置く
 def findpiece(current_legalhands,piece):
+
     selected_legalhands = {}
     for key,value in current_legalhands.items():
         if value[0] == piece:
@@ -1008,3 +1008,4 @@ def findpiece(current_legalhands,piece):
         return selected_legalhands
     else :
         return current_legalhands
+    

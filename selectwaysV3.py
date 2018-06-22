@@ -588,11 +588,13 @@ def block(current_legalhands,board):
                         while field0[k][l] != 1:
                             l += 1
                             if l == 19:
+                                l = 0
                                 break
                         m = 19
                         while field0[k][m] != 4:
                             m -= 1
                             if m == 0:
+                                m = 19
                                 break
                         for n in range(l+1,m):
                             if field2[k][n] == 21:
@@ -608,11 +610,13 @@ def block(current_legalhands,board):
                         while field0[k][l] != 2:
                             l += 1
                             if l == 19:
+                                l = 0
                                 break
                         m = 19
                         while field0[k][m] != 3:
                             m -= 1
                             if m == 0:
+                                m = 19
                                 break
                         for n in range(l+1,m):
                             if field2[k][n] == 21:
@@ -662,11 +666,13 @@ def block(current_legalhands,board):
                         while field0[k][l] != 1:
                             l += 1
                             if l == 19:
+                                l = 0
                                 break
                         m = 19
                         while field0[k][m] != 4:
                             m -= 1
                             if m == 0:
+                                m = 19
                                 break
                         for n in range(l+1,m):
                             if field3[k][n] == 31:
@@ -682,11 +688,13 @@ def block(current_legalhands,board):
                         while field0[k][l] != 2:
                             l += 1
                             if l == 19:
+                                l = 0
                                 break
                         m = 19
                         while field0[k][m] != 3:
                             m -= 1
                             if m == 0:
+                                m = 19
                                 break
                         for n in range(l+1,m):
                             if field3[k][n] == 31:
@@ -720,7 +728,7 @@ def block(current_legalhands,board):
                         m = 0
                         while field0[k][m] == 0:
                             m += 1
-                            if m == 0:
+                            if m == 19:
                                 break
                         for l in range(m):
                             if field4[k][l] == 41:
@@ -736,11 +744,13 @@ def block(current_legalhands,board):
                         while field0[k][l] != 1:
                             l += 1
                             if l == 19:
+                                l = 0
                                 break
                         m = 19
                         while field0[k][m] != 4:
                             m -= 1
                             if m == 0:
+                                m = 19
                                 break
                         for n in range(l+1,m):
                             if field4[k][n] == 41:
@@ -756,11 +766,13 @@ def block(current_legalhands,board):
                         while field0[k][l] != 2:
                             l += 1
                             if l ==19:
+                                l = 0
                                 break
                         m = 19
                         while field0[k][m] != 3:
                             m -= 1
                             if m == 0:
+                                m =19
                                 break
                         for n in range(l+1,m):
                             if field4[k][n] == 41:
@@ -1038,6 +1050,7 @@ def defence(current_legalhands,board):
         else :
             return current_legalhands
 
+#周りのおける場所の数を把握
 def defence2(current_legalhands,old_player1,board):
     selected_legalhands = {}
     field = board.copy()
@@ -1080,7 +1093,7 @@ def defence2(current_legalhands,old_player1,board):
                         if 0 <= i+k <= 19 and 0 <= j+l <= 19:
                             if field[i+k][j+l] == 11:
                                 judge += 1 
-        if judge <= 3:
+        if judge <= 2:
             for key,value in current_legalhands.items():
                 if value[6] == i and value[7] == j:
                     new = {key:value}

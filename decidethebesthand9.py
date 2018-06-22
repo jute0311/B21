@@ -6,13 +6,13 @@ from blokus.utils import encodeFourCode
 
 from players.B21.makealllegalhands import *
 
-from players.B21V8.selectwaysV3 import *
+from players.B21V9.selectwaysV3 import *
 
 '''
 合法手の中から最適手を選ぶ関数
 '''
 
-def decideTheBestHand8(number,field,player1,pieces,count,board) :
+def decideTheBestHand9(number,field,player1,pieces,count,board) :
 
     the_best_hand = ''    #選ばれたピースを格納する変数の初期化
 
@@ -175,6 +175,10 @@ def decideTheBestHand8(number,field,player1,pieces,count,board) :
             if len(survived_legalhands) != 1:
                 survived_legalhands = getEnterSpace(survived_legalhands,board)
                 #print("2 : {0}".format(len(survived_legalhands)))
+
+            if len(survived_legalhands) != 1:
+                survived_legalhands = block(survived_legalhands,board)
+                #print("3 : {0}".format(len(survived_legalhands)))
 
             if len(survived_legalhands) != 1:
                 survived_legalhands = onlyone(survived_legalhands,player1,board)

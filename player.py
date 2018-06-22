@@ -1,6 +1,6 @@
 from blokus.player import Player
 from blokus.utils import encodeFourCode
-from players.B21V7.decidethebesthand8 import decideTheBestHand8
+from players.B21V8.decidethebesthand8 import decideTheBestHand8
 from players.B21.makefield import *
 
 import time

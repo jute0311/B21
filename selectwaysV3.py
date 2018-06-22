@@ -515,6 +515,323 @@ def interference(current_legalhands,board):
     else :
         return current_legalhands
 
+#ブロックする
+def block(current_legalhands,board):
+    selected_legalhands = {}
+    field = board.copy()
+
+    p1 = [0,0]
+    p2 = [0,0]
+    p3 = [0,0]
+    p4 = [0,0]
+    (field0,pl1,pl2,pl3,pl4) = getField(field,p1,p2,p3,p4)
+
+    p1 = [0,0]
+    p2 = [1,0]
+    p3 = [0,0]
+    p4 = [0,0]
+    (field2,pl1,player2,pl3,pl4) = getField(field,p1,p2,p3,p4)
+
+    p1 = [0,0]
+    p2 = [0,0]
+    p3 = [1,0]
+    p4 = [0,0]
+    (field3,pl1,pl2,player3,pl4) = getField(field,p1,p2,p3,p4)
+
+    p1 = [0,0]
+    p2 = [0,0]
+    p3 = [0,0]
+    p4 = [1,0]
+    (field4,pl1,pl2,pl3,player4) = getField(field,p1,p2,p3,p4)
+    
+    for key,value in current_legalhands.items():
+        nowfield = value[5].copy()
+        judge = 0
+        for piece in player2:
+            i = piece[0]
+            j = piece[1]
+            if 1 <= i <= 18 and 1 <= j <= 18:
+
+                if field2[i-1][j-1] == 2 or field2[i+1][j-1] == 2:  #右側を見る
+                    judge = 0
+                    for k in range(1,18):
+                        m = 19
+                        while field0[k][m] == 0:
+                            m -= 1
+                            if m == 0:
+                                break
+                        for l in range(m,19):
+                            if field2[k][l] == 21:
+                                judge = 1
+                    if judge == 0:
+                        new = {key:value}
+                        selected_legalhands.update(new)
+                if field2[i-1][j+1] == 2 or field2[i+1][j+1] == 2:  #左側を見る
+                    judge = 0
+                    for k in range(1,18):
+                        m = 0
+                        while field0[k][m] == 0:
+                            m += 1
+                            if m == 19:
+                                break
+                        for l in range(m):
+                            if field2[k][l] == 21:
+                                judge = 1
+                    if judge == 0:
+                        new = {key:value}
+                        selected_legalhands.update(new)
+
+                if field2[i-1][j-1] == 2 or field2[i-1][j+1] == 2:  #下側を見る
+                    judge = 0
+                    for k in range(i+1,19):
+                        l = 0
+                        while field0[k][l] != 1:
+                            l += 1
+                            if l == 19:
+                                break
+                        m = 19
+                        while field0[k][m] != 4:
+                            m -= 1
+                            if m == 0:
+                                break
+                        for n in range(l+1,m):
+                            if field2[k][n] == 21:
+                                judge = 1
+                    if judge == 0:
+                        new = {key:value}
+                        selected_legalhands.update(new)
+
+                if field2[i+1][j-1] == 2 or field2[i+1][j+1] == 2:  #上側を見る
+                    judge = 0
+                    for k in range(0,i):
+                        l = 0
+                        while field0[k][l] != 2:
+                            l += 1
+                            if l == 19:
+                                break
+                        m = 19
+                        while field0[k][m] != 3:
+                            m -= 1
+                            if m == 0:
+                                break
+                        for n in range(l+1,m):
+                            if field2[k][n] == 21:
+                                judge = 1
+                    if judge == 0:
+                        new = {key:value}
+                        selected_legalhands.update(new)
+                            
+        for piece in player3:
+            i = piece[0]
+            j = piece[1]
+            if 1 <= i <= 18 and 1 <= j <= 18:
+
+                if field3[i-1][j-1] == 2 or field3[i+1][j-1] == 2:  #右側を見る
+                    judge = 0
+                    for k in range(1,18):
+                        m = 19
+                        while field0[k][m] == 0:
+                            m -= 1
+                            if m == 0:
+                                break
+                        for l in range(m,19):
+                            if field3[k][l] == 31:
+                                judge = 1
+                    if judge == 0:
+                        new = {key:value}
+                        selected_legalhands.update(new)
+                if field3[i-1][j+1] == 2 or field3[i+1][j+1] == 2:  #左側を見る
+                    judge = 0
+                    for k in range(1,18):
+                        m = 0
+                        while field0[k][m] == 0:
+                            m += 1
+                            if m == 19:
+                                break
+                        for l in range(m):
+                            if field3[k][l] == 31:
+                                judge = 1
+                    if judge == 0:
+                        new = {key:value}
+                        selected_legalhands.update(new)
+
+                if field3[i-1][j-1] == 2 or field3[i-1][j+1] == 2:  #下側を見る
+                    judge = 0
+                    for k in range(i+1,19):
+                        l = 0
+                        while field0[k][l] != 1:
+                            l += 1
+                            if l == 19:
+                                break
+                        m = 19
+                        while field0[k][m] != 4:
+                            m -= 1
+                            if m == 0:
+                                break
+                        for n in range(l+1,m):
+                            if field3[k][n] == 31:
+                                judge = 1
+                    if judge == 0:
+                        new = {key:value}
+                        selected_legalhands.update(new)
+
+                if field3[i+1][j-1] == 2 or field3[i+1][j+1] == 2:  #上側を見る
+                    judge = 0
+                    for k in range(0,i):
+                        l = 0
+                        while field0[k][l] != 2:
+                            l += 1
+                            if l == 19:
+                                break
+                        m = 19
+                        while field0[k][m] != 3:
+                            m -= 1
+                            if m == 0:
+                                break
+                        for n in range(l+1,m):
+                            if field3[k][n] == 31:
+                                judge = 1
+                    if judge == 0:
+                        new = {key:value}
+                        selected_legalhands.update(new)
+            
+        for piece in player4:
+            i = piece[0]
+            j = piece[1]
+            if 1 <= i <= 18 and 1 <= j <= 18:
+
+                if field4[i-1][j-1] == 2 or field4[i+1][j-1] == 2:  #右側を見る
+                    judge = 0
+                    for k in range(1,18):
+                        m = 19
+                        while field0[k][m] == 0:
+                            m -= 1
+                            if m == 0:
+                                break
+                        for l in range(m,19):
+                            if field4[k][l] == 41:
+                                judge = 1
+                    if judge == 0:
+                        new = {key:value}
+                        selected_legalhands.update(new)
+                if field4[i-1][j+1] == 2 or field4[i+1][j+1] == 2:  #左側を見る
+                    judge = 0
+                    for k in range(1,18):
+                        m = 0
+                        while field0[k][m] == 0:
+                            m += 1
+                            if m == 0:
+                                break
+                        for l in range(m):
+                            if field4[k][l] == 41:
+                                judge = 1
+                    if judge == 0:
+                        new = {key:value}
+                        selected_legalhands.update(new)
+
+                if field4[i-1][j-1] == 2 or field4[i-1][j+1] == 2:  #下側を見る
+                    judge = 0
+                    for k in range(i+1,19):
+                        l = 0
+                        while field0[k][l] != 1:
+                            l += 1
+                            if l == 19:
+                                break
+                        m = 19
+                        while field0[k][m] != 4:
+                            m -= 1
+                            if m == 0:
+                                break
+                        for n in range(l+1,m):
+                            if field4[k][n] == 41:
+                                judge = 1
+                    if judge == 0:
+                        new = {key:value}
+                        selected_legalhands.update(new)
+
+                if field4[i+1][j-1] == 2 or field4[i+1][j+1] == 2:  #上側を見る
+                    judge = 0
+                    for k in range(0,i):
+                        l = 0
+                        while field0[k][l] != 2:
+                            l += 1
+                            if l ==19:
+                                break
+                        m = 19
+                        while field0[k][m] != 3:
+                            m -= 1
+                            if m == 0:
+                                break
+                        for n in range(l+1,m):
+                            if field4[k][n] == 41:
+                                judge = 1
+                    if judge == 0:
+                        new = {key:value}
+                        selected_legalhands.update(new)
+        
+    if selected_legalhands != {} :
+        return selected_legalhands
+    else :
+        return current_legalhands
+
+#あるスペースに一か所しかないところの把握
+def onlyone(current_legalhands,old_player1,board):
+    field = board.copy()
+    selected_legalhands = {}
+    p1 = [1,0]
+    p2 = [0,0]
+    p3 = [0,0]
+    p4 = [0,0]
+    (field,player1,player2,player3,player4) = getField(field,p1,p2,p3,p4)
+
+    for piece in old_player1:
+        i = piece[0]
+        j = piece[1]
+        j1=0
+        j2=0
+        j3=0
+        j4=0
+
+        if i >= 1 and j >= 1:
+            if field[i-1][j-1] == 1:
+                for k in range(4):
+                    for l in range(4):
+                        if 0 <= i+k <= 19 and 0 <= j+l <= 19:
+                            if field[i+k][j+l]==11:
+                                j1 += 1
+        if i-1 >= 0 and j+1 <= 19:
+            if field[i-1][j+1] == 1:
+                for k in range(4):
+                    for l in range(4):
+                        if 0 <= i+k <= 19 and 0 <= j-l <= 19:
+                            if field[i+k][j-l]==11:
+                                j2 += 1
+        if i+1 <= 19 and j-1 >= 0:
+            if field[i+1][j-1] == 1:
+                for k in range(4):
+                    for l in range(4):
+                        if 0 <= i-k <= 19 and 0 <= j+l <= 19:
+                            if field[i-k][j+l]==11:
+                                j3 += 1
+        if i+1 <= 19 and j+1 <= 19:
+            if field[i+1][j+1] == 1:
+                for k in range(4):
+                    for l in range(4):
+                        if 0 <= i-k <= 19 and 0 <= j-l <= 19:
+                            if field[i-k][j-l]==11:
+                                j4 += 1
+                            
+        if j1 <=1 and j2 <=1 and j3 <=1 and j4 <=1:
+            for key,value in current_legalhands.items():
+                if value[6] == i and value[7] == j:
+                    new = {key:value}
+                    selected_legalhands.update(new)
+
+    if selected_legalhands != {} :
+        return selected_legalhands
+    else :
+        return current_legalhands
+
 #相手の侵入を防ぐ(未完成)
 def interferenceEnter(current_legalhands,board):
     p1 = [0,0]
@@ -639,6 +956,50 @@ def getEnterSpace(current_legalhands,board):
     else :
         return current_legalhands
 
+#置いた場所が取り合いになってるか確認
+def popularity(current_legalhands,old_player1,board):
+    selected_legalhands = {}
+    field = board.copy()
+    pieces_size = getPiecesSize()
+    p1 = [0,0]
+    p2 = [1,1]
+    p3 = [0,0]
+    p4 = [0,0]
+    (field2,pl1,player2,pl3,pl4) = getField(field,p1,p2,p3,p4)
+
+    p1 = [0,0]
+    p2 = [0,0]
+    p3 = [1,1]
+    p4 = [0,0]
+    (field3,pl1,pl2,player3,pl4) = getField(field,p1,p2,p3,p4)
+
+    p1 = [0,0]
+    p2 = [0,0]
+    p3 = [0,0]
+    p4 = [1,1]
+    (field4,pl1,pl2,pl3,player4) = getField(field,p1,p2,p3,p4)
+    
+    for key,value in current_legalhands.items():
+        now_field = value[5].copy()
+        piecesize = pieces_size[value[0][0]]
+        check = 0
+        seq = 0
+        max = 0
+        for i in range(20):
+            for j in range(20):
+                if field2[i][j] != 1 and field2[i][j] == 1:
+                    check += 1
+                    if seq == 0 and field2[i][j] == 21:
+                        seq = 1
+                    elif field2[i][j] == 20:
+                        seq = 0
+        
+
+
+    if selected_legalhands != {} :
+        return selected_legalhands
+    else :
+        return current_legalhands
 #自分の開始地点を守る
 def defence(current_legalhands,board):
 
@@ -895,28 +1256,28 @@ def findSpace2(current_legalhands,old_player1,board):
             if field[i-1][j-1] == 1:
                 for k in range(4):
                     for l in range(4):
-                        if 0 <= i+k <= 19 and 0 <= j+l <= 19:
+                        if 0 <= i+k-1 <= 19 and 0 <= j+l-1 <= 19:
                             if field[i+k-1][j+l-1]==0:
                                 j1 += 1
         if i-1 >= 0 and j+1 <= 19:
             if field[i-1][j+1] == 1:
                 for k in range(4):
                     for l in range(4):
-                        if 0 <= i+k <= 19 and 0 <= j-l <= 19:
+                        if 0 <= i+k-1 <= 19 and 0 <= j-l+1 <= 19:
                             if field[i+k-1][j-l+1]==0:
                                 j2 += 1
         if i+1 <= 19 and j-1 >= 0:
             if field[i+1][j-1] == 1:
                 for k in range(4):
                     for l in range(4):
-                        if 0 <= i-k <= 19 and 0 <= j+l <= 19:
+                        if 0 <= i-k+1 <= 19 and 0 <= j+l-1 <= 19:
                             if field[i-k+1][j+l-1]==0:
                                 j3 += 1
         if i+1 <= 19 and j+1 <= 19:
             if field[i+1][j+1] == 1:
                 for k in range(4):
                     for l in range(4):
-                        if 0 <= i-k <= 19 and 0 <= j-l <= 19:
+                        if 0 <= i-k+1 <= 19 and 0 <= j-l+1 <= 19:
                             if field[i-k+1][j-l+1]==0:
                                 j4 += 1
                             
